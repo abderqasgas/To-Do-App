@@ -13,11 +13,11 @@ let currentFilter = "all";
 
 addTaskBtn.addEventListener("click", () => {
     addTodo(taskInput.value)
-})
+});
 
 taskInput.addEventListener("keydown", (e) => {
     if(e.key === "Enter") addTodo(taskInput.value);
-})
+});
 
 clearCompletedBtn.addEventListener("click", clearCompleted)
 
@@ -27,13 +27,13 @@ function addTodo(text) {
     const todo = {
         id: Date.now(),
         text,
-        completed:false
-    }
+        completed:false,
+    };
 
     todos.push(todo);
 
     saveTodos
-    // renderTodos()
+    renderTodos()
 }
 
 function saveTodos(){
@@ -43,15 +43,15 @@ function saveTodos(){
 }
 
 function updateItemsCount(){
-    const uncompletedTodos = todo.filter(todo => !todo.completed)
-    itemsLeft.textContent = `${uncompletedTodos.length} item${
-        uncompletedTodos.length !== 1 ? "s" : ""
+    const uncompletedTodos = todos.filter((todo) => !todo.completed);
+    itemsLeft.textContent = `${uncompletedTodos?.length} item${
+        uncompletedTodos?.length !== 1 ? "s" : ""
     } left`;
 }
 
 function checkEmptyState() {
     const filteredTodos = filterTodos(currentFilter);
-    if(filteredTodos.length === 0) emptyState.classList.remove("hidden")
+    if(filteredTodos?.length === 0) emptyState.classList.remove("hidden")
         else emptyState.classList.add("hidden")
 }
 
@@ -62,7 +62,7 @@ function filterTodos(filter){
         case "completed":
             return todos.filter((todo) => todo.completed);
         default:
-            todos;
+           return todos;
     }
 }
 
@@ -71,10 +71,43 @@ function renderTodos(){
 
     const filteredTodos = filterTodos(currentFilter)
 
-    filteredTodos.forEach(todo => {
+    filteredTodos.forEach((todo) => {
         const todoItem = document.createElement("li")
         todoItem.classList.add("todo-item")
-    })
+        if(todo.completed) todoItem.classList.add("completed")
+
+        const checkboxContainer = document.createElement("label")
+        checkboxContainer.classList.add("checkbox-container")
+
+        const checkbox = document.createElement("input")
+        checkbox.type = "checkbox"
+        checkbox.classList.add("todo=checkbox")
+        checkbox.checked = todo.completed
+        checkbox.addEventListener("change", () => toggleTodo(todo.id))
+
+        const checkmark = document.createElement("span")
+        checkmark.classList.add("checkmark")
+
+        checkboxContainer.appendChild(checkbox)
+        checkboxContainer.appendChild(checkmark)
+
+        const todoText = document.createElement("span")
+        todoText.classList.add("todo-item-text")
+        todoText.textContent = todo.text
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.classList.add("delete-btn");
+        deleteBtn.innerHTML = '<i class="fas fa-times"></i>';
+        deleteBtn.addEventListener("click", () => deleteTodo(todo.id));
+
+        todoItem.appendChild(checkboxContainer);
+        todoItem.appendChild(todoText);
+        todoItem.appendChild(deleteBtn);
+
+        todosList.appendChild(todoItem);
+    });
 }
 
 function clearCompleted(){}
+function toggleTodo(id){}
+function deleteTodo(id){}
