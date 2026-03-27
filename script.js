@@ -49,4 +49,32 @@ function updateItemsCount(){
     } left`;
 }
 
+function checkEmptyState() {
+    const filteredTodos = filterTodos(currentFilter);
+    if(filteredTodos.length === 0) emptyState.classList.remove("hidden")
+        else emptyState.classList.add("hidden")
+}
+
+function filterTodos(filter){
+    switch(filter){
+        case "active":
+            return todos.filter((todo) => !todo.completed);
+        case "completed":
+            return todos.filter((todo) => todo.completed);
+        default:
+            todos;
+    }
+}
+
+function renderTodos(){
+    todosList.innerHTML = "";
+
+    const filteredTodos = filterTodos(currentFilter)
+
+    filteredTodos.forEach(todo => {
+        const todoItem = document.createElement("li")
+        todoItem.classList.add("todo-item")
+    })
+}
+
 function clearCompleted(){}
