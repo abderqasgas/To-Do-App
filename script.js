@@ -157,10 +157,18 @@ function setActiveFilter(filter){
         }
     });
 
-    renderTodos()
+    renderTodos();
+}
+
+function setDate(){
+    const options = {weekday:"long",month:"short", day:"numeric"}
+    const today = new Date()
+
+    dateElement.textContent = today.toLocaleDateString("en-US", options);
 }
 
 window.addEventListener("DOMContentLoaded", () => {
     loadTodos();
     updateItemsCount();
+    setDate();
 })
