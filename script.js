@@ -22,7 +22,7 @@ taskInput.addEventListener("keydown", (e) => {
 clearCompletedBtn.addEventListener("click", clearCompleted)
 
 function addTodo(text) {
-    if(text.trim() === "") return
+    if(text.trim() === "") return;
 
     const todo = {
         id: Date.now(),
@@ -32,8 +32,9 @@ function addTodo(text) {
 
     todos.push(todo);
 
-    saveTodos
+    saveTodos()
     renderTodos()
+    taskInput.value = "";
 }
 
 function saveTodos() {
@@ -109,9 +110,29 @@ function renderTodos(){
     });
 }
 
-function clearCompleted(){}
-function toggleTodo(id){}
-function deleteTodo(id){}
+function clearCompleted(){
+    todos = todos.filter(todo => !todo.completed);
+    saveTodos()
+    renderTodos()
+}
+
+function toggleTodo(id){
+    todos = todos.map(todo => {
+        if(todo.id === id){
+            return {...todo, completed: !todo.completed}
+        }
+
+        return todo;
+    });
+
+    saveTodos();
+    renderTodos();
+}
+function deleteTodo(id){
+    todos = todos.filter((todo) => todo.id !== id);
+    saveTodos();
+    renderTodos();
+}
 
 function loadTodos() {
     const storedTodos = localStorage.getItem("todos");
@@ -119,6 +140,27 @@ function loadTodos() {
     renderTodos();
 }
 
+filters.forEach(filter => {
+    filter.addEventListener("click", () => {
+        setActiveFilter(filter.getAttribute("data-filter"))
+    })
+})
+
+function setActiveFilter(filter){
+    currentFilter = filter
+
+    filters.forEach(item => {
+        if(item.getAttribute("data-filter") === filter){
+            item.classList.add("active")
+        } else {
+            item.classList.remove("active")
+        }
+    });
+
+    renderTodos()
+}
+
 window.addEventListener("DOMContentLoaded", () => {
-    loadTodos()
+    loadTodos();
+    updateItemsCount();
 })
