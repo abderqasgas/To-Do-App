@@ -8,7 +8,7 @@ const emptyState = document.querySelector(".empty-state");
 const dateElement = document.getElementById("date");
 const filters = document.querySelectorAll(".filter");
 
-let todos = []
+let todos = [];
 let currentFilter = "all";
 
 addTaskBtn.addEventListener("click", () => {
@@ -36,23 +36,23 @@ function addTodo(text) {
     renderTodos()
 }
 
-function saveTodos(){
-    localStorage.setItem("todos", JSON.stringify(todos))
-    updateItemsCount()
-    checkEmptyState()
+function saveTodos() {
+  localStorage.setItem("todos", JSON.stringify(todos));
+  updateItemsCount();
+  checkEmptyState();
 }
 
-function updateItemsCount(){
-    const uncompletedTodos = todos.filter((todo) => !todo.completed);
-    itemsLeft.textContent = `${uncompletedTodos?.length} item${
-        uncompletedTodos?.length !== 1 ? "s" : ""
-    } left`;
+function updateItemsCount() {
+  const uncompletedTodos = todos.filter((todo) => !todo.completed);
+  itemsLeft.textContent = `${uncompletedTodos?.length} item${
+    uncompletedTodos?.length !== 1 ? "s" : ""
+  } left`;
 }
 
 function checkEmptyState() {
     const filteredTodos = filterTodos(currentFilter);
     if(filteredTodos?.length === 0) emptyState.classList.remove("hidden")
-        else emptyState.classList.add("hidden")
+    else emptyState.classList.add("hidden")
 }
 
 function filterTodos(filter){
@@ -65,6 +65,7 @@ function filterTodos(filter){
            return todos;
     }
 }
+
 
 function renderTodos(){
     todosList.innerHTML = "";
@@ -81,7 +82,7 @@ function renderTodos(){
 
         const checkbox = document.createElement("input")
         checkbox.type = "checkbox"
-        checkbox.classList.add("todo=checkbox")
+        checkbox.classList.add("todo-checkbox")
         checkbox.checked = todo.completed
         checkbox.addEventListener("change", () => toggleTodo(todo.id))
 
