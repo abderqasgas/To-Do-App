@@ -158,17 +158,19 @@ function setActiveFilter(filter){
     });
 
     renderTodos();
+    checkEmptyState();
 }
 
 function setDate(){
     const options = {weekday:"long",month:"short", day:"numeric"}
     const today = new Date()
 
-    dateElement.textContent = today.toLocaleDateString("en-US", options);
+    dateElement.textContent = today.toLocaleDateString("en-US", options)
 }
 
 window.addEventListener("DOMContentLoaded", () => {
     loadTodos();
     updateItemsCount();
     setDate();
+    checkEmptyState();
 })
